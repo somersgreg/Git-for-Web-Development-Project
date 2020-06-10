@@ -452,9 +452,9 @@ Section of a web page.
 Table.
 <ul>
 Unordered list.
+https://developer.mozilla.org/en-US/docs/Web/HTML/Block-level_elements
 
 The following elements are inline by default (although block and inline elements are no longer defined in HTML 5, use content categories instead):
-
 <a>
 <abbr>
 <acronym>
@@ -510,7 +510,7 @@ The following elements are inline by default (although block and inline elements
 <var>
 <video>
 <wbr>
-
+https://developer.mozilla.org/en-US/docs/Web/HTML/Inline_elements
 	The elements that have display: inline-block by default are button , input , select , and textarea 
 
     5. In your own words, explain the box model. What is the fix for the box model? 
