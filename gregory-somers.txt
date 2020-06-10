@@ -1,4 +1,4 @@
-https://codepen.io/somersgreg/pen/GRJQKXp?editors=1100
+https://codepen.io/somersgreg/pen/GRJQKXp
 
 
 	<strong>1. What is Semantic HTML?</strong> 
