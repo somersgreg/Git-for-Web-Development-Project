@@ -385,18 +385,215 @@ Stretch Questions
 
 
     1. What is the difference between an inline element and a block element?
+    You can't put block elements inside inline elements. Formatting. By default, inline elements do not force a new line to begin in the document flow. Block elements, on the other hand, typically cause a line break to occur (although, as usual, this can be changed using CSS).
 
     2. What happens when an element is positioned absolutely? 
+An absolutely positioned element no longer exists in the normal document layout flow. Instead, it sits on its own layer separate from everything else.
 
     3. How do I make an element take up only the amount of space it needs but also have the ability to give it a width? 
+    inline-block keeps it inline, but allows it to take on block element properties like width and height.
 
     4. Name 3 elements that are diplay block by default, 2 elements that are display inline by default and 1 element that is display inline-block by default
 
+The following is a complete list of all HTML "block-level" elements (although "block-level" is not technically defined for elements that are new in HTML5).
+<address>
+Contact information.
+<article>
+Article content.
+<aside>
+Aside content.
+<blockquote>
+Long ("block") quotation.
+<details>
+Disclosure widget.
+<dialog>
+Dialog box.
+<dd>
+Describes a term in a description list.
+<div>
+Document division.
+<dl>
+Description list.
+<dt>
+Description list term.
+<fieldset>
+Field set label.
+<figcaption>
+Figure caption.
+<figure>
+Groups media content with a caption (see <figcaption>).
+<footer>
+Section or page footer.
+<form>
+Input form.
+<h1>, <h2>, <h3>, <h4>, <h5>, <h6>
+Heading levels 1-6.
+<header>
+Section or page header.
+<hgroup>
+Groups header information.
+<hr>
+Horizontal rule (dividing line).
+<li>
+List item.
+<main>
+Contains the central content unique to this document.
+<nav>
+Contains navigation links.
+<ol>
+Ordered list.
+<p>
+Paragraph.
+<pre>
+Preformatted text.
+<section>
+Section of a web page.
+<table>
+Table.
+<ul>
+Unordered list.
+
+The following elements are inline by default (although block and inline elements are no longer defined in HTML 5, use content categories instead):
+
+<a>
+<abbr>
+<acronym>
+<audio> (if it has visible controls)
+<b>
+<bdi>
+<bdo>
+<big>
+<br>
+<button>
+<canvas>
+<cite>
+<code>
+<data>
+<datalist>
+<del>
+<dfn>
+<em>
+<embed>
+<i>
+<iframe>
+<img>
+<input>
+<ins>
+<kbd>
+<label>
+<map>
+<mark>
+<meter>
+<noscript>
+<object>
+<output>
+<picture>
+<progress>
+<q>
+<ruby>
+<s>
+<samp>
+<script>
+<select>
+<slot>
+<small>
+<span>
+<strong>
+<sub>
+<sup>
+<svg>
+<template>
+<textarea>
+<time>
+<u>
+<tt>
+<var>
+<video>
+<wbr>
+
+	The elements that have display: inline-block by default are button , input , select , and textarea 
+
     5. In your own words, explain the box model. What is the fix for the box model? 
+    
+Why the Default Box Model is a Problem
+The CSS default box model takes element dimensions that you’ve gone to the trouble of formally declaring (“this box should be 100px wide and 100px tall”), and dumps padding and borders on top of them. The result is that tightly spaced elements are constantly prone to overlapping onto each other and breaking entire layout flows.
 
+It’s usually at odds with the designer’s intention
+Probably the simplest argument against the default box model is that it approaches layout differently than actual designers do.
 
+An obvious question is, “Isn’t working with the default model just a matter of learning a different way of saying the same thing?” If you’ve really got your heart set on a 100-pixel box, can’t you just do a bit of math and call it 50 pixels with 20px padding and 5px borders?
 
+That we’d have to do this in the first place points to probably the simplest argument against the default box model: it approaches layout differently than actual designers do. When I try to lay out a page, I never think, “No matter what happens to the rest of the layout, I need this paragraph of text to take up exactly half of the page width.” I always think: “This column that contains text—and which has padding and borders and whatnot—should fill half the page.”
 
+So the default model puts us through a lot of unnecessary translation work. Do we really want to manually be doing a bunch of math—”element width = declared width – (left padding + right padding) – (left border + right border)”—just to make CSS understand what we should have been able to declare with a simple, emphatic “width”?
+
+It’s bad for responsive
+The default box model also doesn’t work well for responsive design. Consider the following very intuitive, should-be-very-easy style declaration, attempting to divide a responsive-width container into two equal-width columns, each with 15px of padding:
+
+.responsive-container .half-width-column {
+	width: 50%;
+	padding: 15px;
+}
+With the default box model, there’s no way to make this work. To get a 50% total width, you’d have to subtract 15px from 50% of the container width; but you don’t know the container width to be able to convert 15px into a percentage. As a result, whatever width value you attempt will always be broken: the columns will break and stack vertically at some widths, and they won’t fill the container at others.
+
+It creates fragile layouts
+Because the default model allows numerous kinds of style declarations to change an element’s dimensions, element styles are built like a house of cards. This makes the default model a great source of styling “gotchas,” which can break an element’s styling at any time. Here’s an example:
+
+/* Image must be exactly 250px wide to fit properly in layout */
+.main-container img.fixed-width-img {
+	width: 250px;
+}
+
+/* 300 lines later...
+________________________________ */
+
+/* Today feels like a good day to make some pretty image styles */
+.main-container img {
+	border: 1px black solid;
+}
+The sensible CSS above will break, since what needed to be a 250px-wide image is now 252px.
+
+The Fix: box-sizing: border-box
+It turns out that CSS has partially redeemed itself with a wonderful solution to this problem. It’s called box-sizing: border-box, and it works perfectly and enjoys essentially total browser support.
+
+How it works
+box model border box examplebox-sizing: border-box includes padding and borders in an element’s width. So the .new-home CSS at the top of this post will now generate a square element with 20px of padding, 5px borders, and which all together is 100px by 100px.
+
+How to use it
+The code to change your box model comes from the excellent article “* { Box-sizing: Border-box } FTW” by Paul Irish. It’s as follows:
+
+/* apply a natural box layout model to all elements */
+*, *:before, *:after {
+  -moz-box-sizing: border-box; -webkit-box-sizing: border-box; box-sizing: border-box;
+}
+Just drop this into your CSS (preferably somewhere near the top), and you’ll be covered in every browser that’s in current use—including old IE versions.
+
+Things to watch out for
+Here are a couple caveats for laying your site out with box-model: border-box:
+
+1. Margins are still outside the element.
+This means that the discussion above about padding and borders still applies for margins. For example, this code will still break:
+
+.responsive-container .half-width-column {
+	width: 50%;
+	margin: 15px;
+}
+There’s been some discussion of a hypothetical box-sizing: margin-box; option, which would let you set definitive element widths once and for all. I’d probably use this if it existed, although it apparently never will because of something to do with vertical margin collapse (which, for the record, is something that has caused me a lot of confusion as a designer, as opposed to something I couldn’t bear to see changed).
+
+At any rate, for the foreseeable future you’re stuck with being creative about adding margins to your styling in a way that won’t break it.
+
+2. Borders and padding now reduce content size.
+Obviously, the space for your borders and padding has to come from somewhere, and with box-model: border-box it’s borrowed from the content itself. So a 100px square image will not actually measure 100px if you give it borders and padding—the whole element will, of which the actual content is just a piece.
+
+This is rarely a problem for me, since with responsive design considerations I typically expect content sizes to be variable anyway. But I do imagine this could cause confusion if, for example, you had two absolutely sized 400px boxes inside an 800px box, and they no longer fit with the addition of borders and padding.
+
+3. Be alert if you’re transitioning an entire site to a new box model.
+If you’re going to use a new box model at all, you’ll want to change it across the entire site; this is what the code snippet above does. If you’re thinking about changing an existing site’s box model, be aware that the layout of everything across the site will be changed in ways that may be hard to predict beforehand. Try to do it on a staging site and click around to see the results; don’t just drop it in and forget all about it.
+
+In Conclusion
+Fundamentally, box-sizing: border-box makes a lot more sense for how I actually work and think as a designer. I think most people who have tried it feel the same way—the issue is that not enough people know about it. So don’t be afraid to spread the good news!
+
+We’d love to hear your questions thoughts in the comments below—and, as always, if there’s anything we can help with, please be in touch.
 
 
 
