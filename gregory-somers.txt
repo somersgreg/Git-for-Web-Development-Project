@@ -81,7 +81,8 @@ CSS is independent of HTML and can be used with any XML-based markup language.
   			background-color: yellow;	}
 
 	23. How do you select all links within a div with the class of sidebar?
-.sidebar a:link, .sidebar a:visited {
+.sidebar a
+a:link, .sidebar a:visited {
 a:link - a normal, unvisited link
 a:visited - a link the user has visited
 a:hover - a link when the user mouses over it
@@ -112,7 +113,6 @@ a:active {
 
 	26. What do we use to change the spacing between letters?
 
-		Change The Spacing Between Lines. Use the line-height property in CSS to do so. Browsers by default will create a certain amount of space between lines to ensure that the text is easily readable. For example, for 12-point type, a browser will place about 1 point of vertical space between lines.
 
 	27. What do we use to to change everything to CAPITALS? lowercase? Capitalize?
 	h	The CSS text-transform Property
@@ -138,7 +138,7 @@ a:active {
 	32. Using the command line - how do I see a list of files/folders in my current folder?
 		ls -lh
 
-	33. How do I remove a file via the command line? Why do I have to be careful with this? 
+	33. How do I remove a file via the command line? WHY DO HAVE TO DO THIS?
 		Rm
 
 	34. Why should I use version control? 
